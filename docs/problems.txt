@@ -1,0 +1,40 @@
+
+PROBLEM
+After opening up the input file, I saw that I was only able to select one file at a time.
+https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#multiple
+SOLUTION
+By default it is single, so I needed to add the multiple file attribute.
+
+
+PROBLEM
+Upon testing my code, there was no content registering on the console.
+SOLUTION
+I had forgotten to add file tags to the script src. 
+That one slipped by me for awhile. 
+I then turned off Selected Context Only in the console.
+
+<script src="scripts/bbm-merger"></script> //ERROR
+<script src="scripts/bbm-merger.js"></script> //RIGHT
+
+
+PROBLEM
+When appending string at array, the merged button must be pushed twice.
+SOLUTION
+Since the FileReader is async, the script finished before the filereader was finished loading.
+The file read must synced, so use Promises with the async/await syntax.
+
+
+PROBLEM
+I was getting the same file when working with devtools workspaces and the file would not update.
+I thought it was either a caching problem with devtools or the python simple server.
+SOLUTION
+In the devtools preferences I disabled Preferences > Network > disable caching (while devtools is open)
+If you don't want disable caching, another fix might be to use incognito mode.
+
+
+PROBLEM
+Could not call function within event listener.
+SOLUTION
+Eventlisteners only allow callbacks. 
+Must use an anoymous function to call with parameters, ()=>handleFiles(fileInput)
+

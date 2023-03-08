@@ -1,0 +1,61 @@
+BACKEND FEATURES
+
+OPEN
+	-remove white space and tabs in front and behind
+	-can remove two /DL per end of bookmarks file, remove in preprocessing during file read, may intefere with empty folder function.
+	-capable of export and import of different formats, csv and JSON
+	-make compatible with other browsers, possibly include old and new versions
+	-input link, scrape page, and return folder of links on webpage
+	-select/highlight text/links with mouse and turn into bookmarks
+	
+CLOSED
+	-merge chromium bookmarks
+	-option to remove duplicates
+	-Remove empty folders and titles from file and folder functions
+	-get rid of global variables such as counter and copy count, place individually inside of function or out function such as file handler
+	-reset values so merger can be used without reloading
+	-file, folder, and line option
+	-remove unneccesary merge push in duplicate remover in functions, in else listed as a comment (was needed)
+	-what if only one file is added
+	-change variables to const
+		PERFORMANCE/SIZE
+	-combining as string first and then removing unnecessary characters
+
+UI FEATURES
+OPEN
+
+CLOSED
+	
+	INPUT
+	-disable buttons during processing
+	-make buttons accessible by both keyboard and mouse, use W3 link at beginning
+	-need eventlistener when clickling off file input or after done uploading files, available through input window
+	https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/showPicker
+
+	PROGRESS
+	-show copycount of duplicates
+	-needing a loading progress bar
+	-make download button the same as progress bar
+	-light green to dark green, bright flash and blinking
+	-have a completed and highlight download button
+
+	FILE IMAGES
+	-flex box, center images
+	-file mergers show imgs and names of files in mergers
+	-have a repo of img pictures for file types, default not found file
+	-have box for files
+	-display total size of files and how many duplicates removed and file space saved, make a analyzer showing file data and charts
+	https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_showing_files_size
+	https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_showing_thumbnails_of_user-selected_images
+
+
+	
+	DOWNLOAD 
+	-Base64 gzip and caching use in style sheet
+	-need list and pictures of browsers and also should usage 60% Chrome
+	-sources page and instructions to drag and drop into bookmarks folder
+
+	-save template of file upload code, progress and image preview
+	-Selection API awesome bookmarks
+	-different ways of making html code string addition, arr push, or dom creation
+	-how to update certain bookmarks folders

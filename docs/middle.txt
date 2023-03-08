@@ -1,0 +1,220 @@
+INTRODUCTION/BACKSTORY
+
+The inspiration behind the browser bookmarks merger was that I had several years worth of bookmarks.
+Their total size was about 10-20mb and I didn't want to go through all of them.
+I needed a way to manage all of my bookmarks and find all of the useful ones.
+After the project was done there was a total of FIND BOOKMARK COUNT and DUPLICATE COUNT.
+SHOW pictures and possibly GIFS
+
+My thought was to simply append them all together but I realized that I had many duplicates to deal with.
+So I also needed a way to remove the duplicate bookmarks.
+After investigating how google chromium made its bookmarks,
+I found that it reads the files line by line and takes only the first tag and skips the rest.
+
+I thought that I could expand the project to a wider audience and make a bookmark merger for all browsers.
+Along with this, another feature would allow for importing and exporting to different file formats.
+Example, take a csv file and convert to bookmarks.
+This also got me thinking to be able to scrape a webpage such as awesome.
+And convert all of those links to a booksmarks folder of a given browser.
+Even better would to be able to select the links you want and have them turned into bookmarks.
+A bookmarks wizard
+
+
+PART I: BACKEND
+FILE INPUT
+
+My first steps were to lay down the buttons necessary for the merger.
+The 3 buttons can be summed as Input -> Process -> Output
+The first button was for getting the bookmarks.
+Now there are two ways of doing this, 
+One is the file input and the second is the File System Access Api.
+For this, I am going to use the file input since this application is typically done only on occasion.
+
+The second button is for executing the merge.
+
+And the third button is for downloading the merged file.
+This also could utilize the File System Access Api but not necessary in this application.
+
+Now that the buttons are laid out. It's time to give them a way to interact with javascript.
+One option is to use inline event handlers but I am going to follow the recommendation of unobtrusive javascript.
+https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#inline_event_handlers_%E2%80%94_dont_use_these
+
+Creating a way to reference the buttons with an id.
+Another question that came up was deciding whether or not to use getElementById or querySelector 
+show links
+https://developer.mozilla.org/en-US/docs/Web/API/Document_object_model/Locating_DOM_elements_using_selectors
+and use multiple parameters
+https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#getting_data_into_and_out_of_an_event_listener
+eventlistener behavior with scopes
+
+I chose to use the getElementById because the querySelector requires text to be formatted a certain way.
+So the code now for the event handlers.
+
+CODE
+<input  id="fileInput" type="file"> 
+<br>
+<button id="fileMerge">Merge Your Bookmarks</button>
+<br>
+<button id="fileDownload">DOWNLOAD BOOKMARKS</button>
+
+let fileInput = document.getElementById("fileInput")
+let fileMerge = document.getElementById("fileMerge")
+let fileDownload = document.getElementById("fileDownload")
+
+Once references for the button's ids were finished, I needed to get the bookmarks files.
+
+After reading up on the input file tag, I was lead to the File API.
+https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications
+
+I had to spend some time reviewing how the File API worked. 
+As it only gets the files, the next step was to use the FileReader API to read the content out of the files.
+https://developer.mozilla.org/en-US/docs/Web/API/FileReader
+
+After setting up the script for the file reading, I needed to put together a function for merging the content of the files.
+So next I had to examine how chromium reads bookmarks.
+
+
+
+ANATOMY OF BOOKMARKS
+
+Here is a sample of the what the bookmarks look like.
+I've removed some content from the bookmark attributes such as base64 data and date added/modified.
+
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+     It will be read and overwritten.
+     DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+<DL><p>
+    <DT><H3 PERSONAL_TOOLBAR_FOLDER="true">Bookmarks bar</H3>
+    <DL><p>
+		<DT><A HREF="https://web.dev/learn/">Learn</A>
+        <DT><H3>Code</H3>
+        <DL><p>
+			<DT><A HREF="https://www.mozilla.org/en-US/">Mozilla</A>
+        </DL><p>
+    </DL><p>
+</DL><p>
+
+So let's see how this looks in the browser after importing.
+
+In the browser bookmarks the visible content starts at the first <DL> tag which is labeled Imported
+then followed by the <DT><H3> tag with Bookmarks Bar.
+
+
+code to picture comparison.
+show a folder and arrows pointing to code for what it represents, maybe on hover interaction highlighting lines to active code.
+
+<DL><p>
+    <DT><H3 PERSONAL_TOOLBAR_FOLDER="true">Bookmarks bar</H3>
+    <DL><p>
+		<DT><A HREF="https://web.dev/learn/">Learn</A>
+        <DT><H3>Code</H3>
+        <DL><p>
+			<DT><A HREF="https://www.mozilla.org/en-US/">Mozilla</A>
+        </DL><p>
+    </DL><p>
+</DL><p>
+
+
+<DT> with an <H3> represents the title of the folder
+The <DL><p> tag represents a folder
+<DT> with <A> tag represents a bookmark
+
+
+So a simple file would look like this
+<DT><A HREF="https://www.mozilla.org/en-US/">Mozilla</A>
+
+And a folder
+<DT><H3>Code</H3>
+<DL><p>
+</DL><p>
+
+And together as a folder/file structure
+<DT><H3>Code</H3>
+<DL><p>
+	<DT><A HREF="https://www.mozilla.org/en-US/">Mozilla</A>
+</DL><p>
+
+So I took the previous code as a template and start playing around with different arrangements.
+There is a key word PERSONAL_TOOLBAR_FOLDER="true" that encompasses all of the bookmarks regardless of other folders.
+The root folder is PERSONAL_TOOLBAR_FOLDER="true", anything before that is skipped
+It combines folders of the same name.
+There must be a heading tag but it can be blank.
+Not doing so interrupts the whole structure and you will get a myriad of broken results.
+There should also be only one DT or DL tag per line, it seems to skip any others. can't do <dt></dt><dt></dt>
+Having multiple PERSONAL_TOOLBAR_FOLDER="true" attributes also interrupts if they are not on the same level of nesting.
+If the folder names are different they do not merge. Files will not merge if name is same so need to remove duplicates.
+
+
+
+FILTERING THE FILE TEXT
+
+Now how to do the merge.
+Two options for merging would be to take a subtractive approach or additive approach.
+The subtractive approach
+Append them together as strings, so this could simply be done with the .join() method.
+However doing this would keep the top part of the file together, this could be removed a the .replace() method using a blank string.
+THe downside here is that different browsers may contain other content and would interrupt the merge.
+
+The additive approach
+The additive approach keeps only the useful content so this one may work well with other browsers.
+The downside is likely a drop in performance during the merge.
+This shouldn't be a problem because merging bookmarks is likely to be done on occasion.
+
+Since I'm using the additive approach.
+The head will added to the front of the joined array at the very end.
+
+<!DOCTYPE NETSCAPE-Bookmark-file-1>
+<!-- This is an automatically generated file.
+     It will be read and overwritten.
+     DO NOT EDIT! -->
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
+<TITLE>Bookmarks</TITLE>
+<H1>Bookmarks</H1>
+
+So once the files are taken from the input file.
+And then read by the fileReader.
+Each line needs to be broken down.
+This is done by using the .split("\n") method.
+For some conditionals, I need to keep any line that contain either a <DL> or <DT> tag.
+Since I also need to get closing tags as well, the < can be removed, resulting in this DL> or DT> listed in the condtional
+
+CODE
+
+
+MERGE FILE STRUCTURE
+
+Next is how the bookmarks should look in the browser after import.
+3 different setups, file, folder, or line/bookmark
+and then removing duplicates of files, folders, and lines/bookmarks on each setup
+
+So to represent this in the html page, we have an options list.
+First, for duplicates, when an on or off so a checkbox will work here.
+Next is our three options for structuring the bookmarks as either file, folder, or line.
+For this I will use radio buttons.
+
+The bookmarkMerging function can flow into 6 different outcomes if we consider our list of options.
+Since there are several outcomes, each option will be wrapped in its own function.
+
+After removing duplicates, I saw a lot of empty folders.
+So I needed to find a way to remove those during the merge.
+Since each folder needs a header tag, I filtered the index of each header and if it was followed by a folder open and close tag,
+then the index of those tags were spliced out of the array.
+Another problem was some new empty folders emerged as a result of removing empty nested ones,
+so I was chose to use a recursive function to clean all empty folders out.
+This function was only necessary for the file and folder options that removed duplicates.
+
+Now that the code works, it's time to look at putting together the UI.
+
+
+PART II: UI
+
+
+
+
+
+
+
