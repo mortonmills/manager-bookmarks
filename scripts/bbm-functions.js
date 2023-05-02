@@ -46,14 +46,17 @@ function fileNoDup(bookmarks) {
 function folderDup(bookmarks) {
 
     let merged = []
-    merged.push(`<DT><H3>DSF</H3>`)
     //FILE ${++counter}
     bookmarks.forEach(el=>{
     progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
-            el.includes("Bookmarks bar") ? merged.push(el.replace("Bookmarks bar", `MERGED`)) : merged.push(el)
+            el.includes("Bookmarks bar") 
+            ? merged.push(el.replace("Bookmarks bar", `MERGED`)) 
+            : arr[i+1].includes("Bookmarks bar")
+            ? merged.push(`<DT><H3>DSF</H3>\n${el}`)
+            : merged.push(el)
         }
 
     }
@@ -64,9 +67,8 @@ function folderDup(bookmarks) {
 
 function folderNoDup(bookmarks) {
     let merged = []
-    merged.push(`<DT><H3>DSF</H3>`)
     //FILE ${++counter}
-    bookmarks.forEach(el=>{
+    bookmarks.forEach((el,i,arr)=>{
     progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
@@ -74,7 +76,10 @@ function folderNoDup(bookmarks) {
             if (el.includes("Bookmarks bar")) {
                 merged.push(el.replace("Bookmarks bar", `MERGED`))
 
-            } else if (el.includes("HREF=")) {
+            } else if (arr[i+1].includes("Bookmarks bar")) {
+                merged.push(`<DT><H3>DSF</H3>\n${el}`)
+            }
+            else if (el.includes("HREF=")) {
 
                 let site = el.match(regex)
                 let arr2 = merged.flat(3).join()
