@@ -17,6 +17,8 @@ function bookmarksMerger(bookmarks) {
         return duplicateCheck.checked ? folderDup(bookmarks) : folderNoDup(bookmarks)
     } else if (lineRadio.checked) {
         return duplicateCheck.checked ? lineDup(bookmarks) : lineNoDup(bookmarks)
+    } else if (readMeRadio.checked) {
+        return readMeLinks(bookmarks)
     }
     return console.log("Error")
 }

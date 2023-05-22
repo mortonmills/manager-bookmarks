@@ -2,8 +2,8 @@ function fileDup(bookmarks) {
     let merged = []
     merged.push(`<DT><H3></H3>`)
     //FILE ${++counter}
-    bookmarks.forEach(el=>{
-    progressBar.value = ++progessStatus
+    bookmarks.forEach(el => {
+        progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
@@ -21,8 +21,8 @@ function fileNoDup(bookmarks) {
     let merged = []
     merged.push(`<DT><H3></H3>`)
     //FILE ${++counter}
-    bookmarks.forEach(el=>{
-    progressBar.value = ++progessStatus
+    bookmarks.forEach(el => {
+        progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
@@ -47,16 +47,16 @@ function folderDup(bookmarks) {
 
     let merged = []
     //FILE ${++counter}
-    bookmarks.forEach(el=>{
-    progressBar.value = ++progessStatus
+    bookmarks.forEach(el => {
+        progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
-            el.includes("Bookmarks bar") 
-            ? merged.push(el.replace("Bookmarks bar", `MERGED`)) 
-            : arr[i+1].includes("Bookmarks bar")
-            ? merged.push(`<DT><H3>DSF</H3>\n${el}`)
-            : merged.push(el)
+            el.includes("Bookmarks bar")
+                ? merged.push(el.replace("Bookmarks bar", `MERGED`))
+                : arr[i + 1].includes("Bookmarks bar")
+                    ? merged.push(`<DT><H3>DSF</H3>\n${el}`)
+                    : merged.push(el)
         }
 
     }
@@ -68,15 +68,15 @@ function folderDup(bookmarks) {
 function folderNoDup(bookmarks) {
     let merged = []
     //FILE ${++counter}
-    bookmarks.forEach((el,i,arr)=>{
-    progressBar.value = ++progessStatus
+    bookmarks.forEach((el, i, arr) => {
+        progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
             if (el.includes("Bookmarks bar")) {
                 merged.push(el.replace("Bookmarks bar", `MERGED`))
 
-            } else if (arr[i+1].includes("Bookmarks bar")) {
+            } else if (arr[i + 1].includes("Bookmarks bar")) {
                 merged.push(`<DT><H3>DSF</H3>\n${el}`)
             }
             else if (el.includes("HREF=")) {
@@ -88,7 +88,7 @@ function folderNoDup(bookmarks) {
 
             } else {
                 merged.push(el)
-                
+
             }
         }
 
@@ -100,8 +100,8 @@ function folderNoDup(bookmarks) {
 
 function lineDup(bookmarks) {
     let merged = []
-    bookmarks.forEach(el=>{
-            progressBar.value = ++progessStatus
+    bookmarks.forEach(el => {
+        progressBar.value = ++progessStatus
         if (el.includes("HREF=")) {
             merged.push(el)
         }
@@ -112,8 +112,8 @@ function lineDup(bookmarks) {
 
 function lineNoDup(bookmarks) {
     let merged = []
-    bookmarks.forEach(el=>{
-            progressBar.value = ++progessStatus
+    bookmarks.forEach(el => {
+        progressBar.value = ++progessStatus
 
         if (el.includes("HREF=")) {
 
@@ -128,22 +128,64 @@ function lineNoDup(bookmarks) {
     return merged
 }
 
+let reference = new RegExp(`HREF="(.*?)"`, `i`)
+let icon = new RegExp(`ICON="(.*?)"`, `i`)
+let title = new RegExp(`">(.*?)</A>`, `i`)//may not work all of time
+
+function readMeLinks(bookmarks) {
+    let cssStyle = `<style>
+    .thumbnails{
+      display:inline-block;
+      text-align:center;
+      padding:10px;
+    }
+  </style>`
+    let merged = [cssStyle]
+
+    bookmarks.forEach(el => {
+        if (el.includes("HREF=")) {
+
+            let href = el.match(reference)
+            let img = "#";
+            let text = el.match(title)
+
+if(el.includes("ICON=")){img = el.match(icon)}
+
+
+
+            let readMeStr = `
+<div class="thumbnails">
+<a href="${href[1]}">
+<img width = "100px" src="${img[1]}" title="">
+<br>
+${text[1]}
+</a> 
+</div>
+`
+
+            merged.push(readMeStr)
+        }
+    }
+    )
+    return merged
+}
+
 //remove blank items in array
 function emptyFolder(bookArr) {
     let bookmarks = bookArr
     let base = true
-    bookmarks.forEach((el,i,arr)=>{
+    bookmarks.forEach((el, i, arr) => {
 
-        if (arr[i].includes(`H3`) 
-            && arr[i + 1].includes(`<DL>`) 
-            && arr[i + 2].includes(`</DL>`)){//may have to escape) 
+        if (arr[i].includes(`H3`)
+            && arr[i + 1].includes(`<DL>`)
+            && arr[i + 2].includes(`</DL>`)) {//may have to escape) 
             arr.splice(i, 3)
             base = false
         }
     }
     )
 
-    if(base){
+    if (base) {
         return bookmarks
     }
 

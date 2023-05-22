@@ -3,6 +3,9 @@ const fileRadio = document.getElementById("fileRadio")
 const folderRadio = document.getElementById("folderRadio")
 const lineRadio = document.getElementById("lineRadio")
 const duplicateCheck = document.getElementById("duplicateCheck")
+
+const readMeRadio = document.getElementById("readMeRadio")
+
 //INPUTS
 //GETTING FILES
 const fileInput = document.getElementById("fileInput")
