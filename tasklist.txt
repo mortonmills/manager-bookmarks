@@ -1,0 +1,1 @@
+Use base64 icons from bookmarks for bookmarks GitHub readme
