@@ -4,7 +4,25 @@
         <meta charset="UTF-8">
     </head>
     <body>
-        <img  src="images/gbm.png" alt="icon" height="200">
+      <style>
+
+        .wrapper {
+          display: grid;
+          grid-template-columns:repeat(2, auto);
+          grid-template-rows:repeat(2, 200px);
+          /* text-align:center; */
+        }
+        .wrapper > div {
+          background-color:rgb(250, 198, 208);
+          border:solid rgb(77, 76, 76);
+          padding: 10px;
+          margin:5px;
+          border-radius:7px;
+        }
+      </style>
+
+
+        <img  src="images/gbm.png" alt="icon" height="100">
         <h1 >Browser Bookmarks Manager</h1>
       When you have an excess of bookmarks, the bookmarks merger can remove duplicates and restructure your bookmarks.
       <br>
@@ -17,25 +35,41 @@
                 
         </fieldset>
         <br>
-        <fieldset>
+
+        <fieldset class="wrapper">
             <legend>Bookmark Structure</legend>
-            <input type="radio" name="bookmarks" id="fileRadio">
-            File (lists all of your bookmark files as folders.)
-  <br>
-            <input type="radio" name="bookmarks" id="folderRadio">
-            Folder (merges duplicate bookmark folders)
-  <br>
-            <input type="radio" name="bookmarks" id="lineRadio" checked>
-            Line (removes folders and lists every bookmark)
+            <div class="select">
+              <input hidden type="radio" name="bookmarks" id="fileRadio">
+              File (lists all of your bookmark files as folders.)
+              <br>
+<img src="images/file-bookmarks.png" height="150">
+            </div>
 
-            <br>
-            <input type="radio" name="bookmarks" id="readMeRadio" checked>
-            README (a README that contains images of all the bookmarks as links.)
-            <br>
+            <div class="select">
+              <input hidden type="radio" name="bookmarks" id="folderRadio">
+              Folder (merges duplicate bookmark folders)
+              <br>
+              <img src="images/folder-bookmarks.png" height="150">
+            </div>
 
-        
-        
+            <div class="select">
+
+              <input hidden type="radio" name="bookmarks" id="lineRadio" checked>
+              Line (removes folders and lists every bookmark)
+              <br>
+              <img src="images/line-bookmarks.png" height="150">
+            </div>
+
+            <div class="select">
+              <input hidden type="radio" name="bookmarks" id="readMeRadio" checked>
+              README (a README that contains images of all the bookmarks as links.)
+              <br>
+              <img src="images/readme-bookmarks.png" height="150">
+            </div>
+
         </fieldset>
+
+
         <br>
         <input type="file" id="fileInput" multiple>
         <br>

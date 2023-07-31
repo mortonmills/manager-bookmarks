@@ -47,7 +47,7 @@ function folderDup(bookmarks) {
 
     let merged = []
     //FILE ${++counter}
-    bookmarks.forEach(el => {
+    bookmarks.forEach((el, i, arr) => {
         progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {

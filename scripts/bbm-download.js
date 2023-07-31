@@ -1,3 +1,21 @@
+//EVENT HANDLERS
+document.querySelectorAll(".select")
+.forEach(x=> x.addEventListener("click", selectColor))
+
+function selectColor(event){
+  document.querySelectorAll(".select")
+.forEach(x => {x.style.backgroundColor = "grey"})
+event.target.style.backgroundColor = "pink"
+document.querySelectorAll(".select > input")
+.forEach(x=> {
+  if(x.parentNode.style.backgroundColor == "pink"){
+x.checked = true
+  }
+  
+})
+// event.target
+
+}
 
   //GET DATE FOR FILENAME SAVE ..."bookmarksMerged_12_20_2022.html
   const date = new Date();
