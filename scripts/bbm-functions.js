@@ -2,13 +2,19 @@ function fileDup(bookmarks) {
     let merged = []
     merged.push(`<DT><H3></H3>`)
     //FILE ${++counter}
-    bookmarks.forEach(el => {
+    bookmarks.forEach((el, i, arr) => {
         progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
-            el.includes("Bookmarks bar") ? merged.push(el.replace("Bookmarks bar", `${fileInput.files[counter++].name}`)) : merged.push(el)
+            el.includes("Bookmarks bar")
+                ? merged.push(el.replace("Bookmarks bar", `${fileInput.files[counter++].name}`))
+                : arr[i + 1].includes("Bookmarks bar")
+                    ? merged.push(`<DT><H3></H3>\n${el}`)
+                    : merged.push(el)
         }
+
+
 
     }
     )
@@ -21,13 +27,15 @@ function fileNoDup(bookmarks) {
     let merged = []
     merged.push(`<DT><H3></H3>`)
     //FILE ${++counter}
-    bookmarks.forEach(el => {
+    bookmarks.forEach((el, i, arr) => {
         progressBar.value = ++progessStatus
 
         if (el.includes("DT>") || el.includes("DL>")) {
 
             if (el.includes("Bookmarks bar")) {
                 merged.push(el.replace("Bookmarks bar", `${fileInput.files[counter++].name}`))
+            } else if (arr[i + 1].includes("Bookmarks bar")) {
+                merged.push(`<DT><H3></H3>\n${el}`)
             } else if (el.includes("HREF=")) {
                 let site = el.match(regex)
                 let arr2 = merged.flat(3).join()
@@ -36,6 +44,14 @@ function fileNoDup(bookmarks) {
             } else {
                 merged.push(el)
             }
+
+
+
+
+
+
+
+
         }
     }
     )
@@ -55,7 +71,7 @@ function folderDup(bookmarks) {
             el.includes("Bookmarks bar")
                 ? merged.push(el.replace("Bookmarks bar", `MERGED`))
                 : arr[i + 1].includes("Bookmarks bar")
-                    ? merged.push(`<DT><H3>DSF</H3>\n${el}`)
+                    ? merged.push(`<DT><H3>MERGE</H3>\n${el}`)
                     : merged.push(el)
         }
 
@@ -77,7 +93,7 @@ function folderNoDup(bookmarks) {
                 merged.push(el.replace("Bookmarks bar", `MERGED`))
 
             } else if (arr[i + 1].includes("Bookmarks bar")) {
-                merged.push(`<DT><H3>DSF</H3>\n${el}`)
+                merged.push(`<DT><H3>MERGE</H3>\n${el}`)
             }
             else if (el.includes("HREF=")) {
 
@@ -149,7 +165,7 @@ function readMeLinks(bookmarks) {
             let img = "#";
             let text = el.match(title)
 
-if(el.includes("ICON=")){img = el.match(icon)}
+            if (el.includes("ICON=")) { img = el.match(icon) }
 
 
 

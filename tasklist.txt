@@ -1,6 +1,1 @@
-bookmarks file isn't showing all files, only 2
-clicking image stops background color from changing
-Use base64 icons from bookmarks for bookmarks GitHub readme
-add folder grouping for readME function
-fix bookmarks to be compatible as a chrome exported bookmark
-possible as a chrome extension
+refactor functions, code repetition

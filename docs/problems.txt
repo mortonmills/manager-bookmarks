@@ -38,3 +38,16 @@ SOLUTION
 Eventlisteners only allow callbacks. 
 Must use an anoymous function to call with parameters, ()=>handleFiles(fileInput)
 
+
+
+PROBLEM
+bookmarks file isn't showing all files, only 2
+SOLUTION
+Each file group folder needed to have a header before it
+Before
+<DL><p>
+</DL></p>
+After
+<DT><H3></H3>
+<DL><p>
+</DL></p>
