@@ -1,103 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-    </head>
-    <body>
-      <style>
 
-        .wrapper {
-          display: grid;
-          grid-template-columns:repeat(2, auto);
-          grid-template-rows:repeat(2, 200px);
-          /* text-align:center; */
-        }
-        .wrapper > div {
-          background-color:rgb(250, 198, 208);
-          border:solid rgb(77, 76, 76);
-          padding: 10px;
-          margin:5px;
-          border-radius:7px;
-        }
-      </style>
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <style>
+    input[type="radio"] {
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    .wrapper>div {
+      border: solid rgb(77, 76, 76);
+      padding: 10px;
+      margin: 5px;
+      border-radius: 7px;
+      display: inline-block;
+      cursor: pointer;
+      font-size: 20px;
+    }
+  </style>
 
 
-        <img  src="images/gbm.png" alt="icon" height="100">
-        <h1 >Browser Bookmarks Manager</h1>
-      When you have an excess of bookmarks, the bookmarks merger can remove duplicates and restructure your bookmarks.
+  <img src="images/gbm.png" alt="icon" height="100">
+  <h1>Browser Bookmarks Manager</h1>
+  When you have an excess of bookmarks, the bookmarks merger can remove duplicates and restructure your bookmarks.
+  <br>
+
+  <fieldset style="display:inline-block">
+    <legend>Duplicates</legend>
+    <input type="radio" name="duplicates" id="duplicateCheck">Keep Duplicates
+    <input checked type="radio" name="duplicates">Remove Duplicates
+
+
+
+  </fieldset>
+  <br>
+
+  <fieldset class="wrapper">
+    <legend>Bookmark Structure</legend>
+    <div class="select">
+      <input hidden type="radio" name="bookmarks" id="fileRadio">
+      File (lists all of your bookmark files as folders.)
       <br>
+      <img src="images/file-bookmarks.png" height="150">
+    </div>
 
-        <fieldset>
-            <legend>Duplicates</legend>
-            <input type="checkbox" id="duplicateCheck">Keep Duplicates
+    <div class="select">
+      <input hidden type="radio" name="bookmarks" id="folderRadio">
+      Folder (merges duplicate bookmark folders)
+      <br>
+      <img src="images/folder-bookmarks.png" height="150">
+    </div>
 
+    <div class="select">
 
-                
-        </fieldset>
-        <br>
+      <input hidden type="radio" name="bookmarks" id="lineRadio" checked>
+      Line (removes folders and lists every bookmark)
+      <br>
+      <img src="images/line-bookmarks.png" height="150">
+    </div>
 
-        <fieldset class="wrapper">
-            <legend>Bookmark Structure</legend>
-            <div class="select">
-              <input hidden type="radio" name="bookmarks" id="fileRadio">
-              File (lists all of your bookmark files as folders.)
-              <br>
-<img src="images/file-bookmarks.png" height="150">
-            </div>
+    <div class="select">
+      <input hidden type="radio" name="bookmarks" id="readMeRadio">
+      README (a README that contains images 
+      <br> of all the bookmarks as links.)
+      <br>
+      <img src="images/readme-bookmarks.png" height="150">
+    </div>
 
-            <div class="select">
-              <input hidden type="radio" name="bookmarks" id="folderRadio">
-              Folder (merges duplicate bookmark folders)
-              <br>
-              <img src="images/folder-bookmarks.png" height="150">
-            </div>
-
-            <div class="select">
-
-              <input hidden type="radio" name="bookmarks" id="lineRadio" checked>
-              Line (removes folders and lists every bookmark)
-              <br>
-              <img src="images/line-bookmarks.png" height="150">
-            </div>
-
-            <div class="select">
-              <input hidden type="radio" name="bookmarks" id="readMeRadio" checked>
-              README (a README that contains images of all the bookmarks as links.)
-              <br>
-              <img src="images/readme-bookmarks.png" height="150">
-            </div>
-
-        </fieldset>
+  </fieldset>
 
 
-        <br>
-        <input type="file" id="fileInput" multiple>
-        <br>
-        <button id="fileMerge">Merge Your Bookmarks</button>
-        <br>
-        <br>
-        <progress id="progressBar" style="height: 100px; width: 30%;" max=0 value=0>texthere</progress>
-        <br>
-        <button id="fileDownload">DOWNLOAD BOOKMARKS</button>
+  <br>
+  <input type="file" id="fileInput" multiple>
+  <br>
+  <button id="fileMerge">Merge Your Bookmarks</button>
+  <br>
+  <br>
+  <progress id="progressBar" style="height: 100px; width: 30%;" max=0 value=0>texthere</progress>
+  <br>
+  <button id="fileDownload">DOWNLOAD BOOKMARKS</button>
 
 
-        <footer >
-            <br>
-            <div >
-              <img  src="images/gbm.png" alt="icon" height="20">
-              <span >Browser Bookmarks Manager 2022 by 1960s</span>
-            </div>
-              <a href="https://github.com/1960s/manager-bookmarks">Github</a>
-            </div>
-          </footer>
+  <footer>
+    <br>
+    <div>
+      <img src="images/gbm.png" alt="icon" height="20">
+      <span>Browser Bookmarks Manager 2022 by 1960s</span>
+    </div>
+    <a href="https://github.com/1960s/manager-bookmarks">Github</a>
+    </div>
+  </footer>
 
 
-        <!-- 
+  <!-- 
 <script src="scripts/bbm-file-image"></script>
 -->
-        <script src="scripts/bbm-input.js"></script>
-        <script src="scripts/bbm-functions.js"></script>
-        <script src="scripts/bbm-merger.js"></script>
-        <script src="scripts/bbm-download.js"></script>
-    </body>
+  <script src="scripts/bbm-input.js"></script>
+  <script src="scripts/bbm-functions.js"></script>
+  <script src="scripts/bbm-merger.js"></script>
+  <script src="scripts/bbm-download.js"></script>
+</body>
+
 </html>

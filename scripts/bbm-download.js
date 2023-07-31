@@ -4,18 +4,25 @@ document.querySelectorAll(".select")
 
 function selectColor(event){
   document.querySelectorAll(".select")
-.forEach(x => {x.style.backgroundColor = "grey"})
-event.target.style.backgroundColor = "pink"
-document.querySelectorAll(".select > input")
-.forEach(x=> {
-  if(x.parentNode.style.backgroundColor == "pink"){
-x.checked = true
-  }
-  
-})
-// event.target
+.forEach(x => {x.style.backgroundColor = "white"})
 
+let background = "#c6e9ff"
+
+if(event.target.localName == "img"){
+  event.target.parentNode.style.backgroundColor = background
+  event.target.parentNode.querySelector("input").checked = true
 }
+else{
+  event.target.style.backgroundColor = background
+  event.target.querySelector("input").checked = true
+}
+}
+
+document.querySelector(".select").click()
+
+// document.querySelectorAll(".select > img")
+// .forEach(x=> x.addEventListener("click", (event)=> event.target.parentNode.style.backgroundColor = "pink"))
+
 
   //GET DATE FOR FILENAME SAVE ..."bookmarksMerged_12_20_2022.html
   const date = new Date();
